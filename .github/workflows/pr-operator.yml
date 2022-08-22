@@ -22,6 +22,11 @@ on:
         default: false
         required: false
         type: boolean
+      PACKAGE_OPERATOR:
+        description: "Generate the bundle and Helmchart for the operator"
+        default: true
+        required: false
+        type: boolean
       RUN_INTEGRATION_TESTS:
         description: "Run integration tests will run the integration target in the Makefile"
         default: false
@@ -276,6 +281,7 @@ jobs:
   build-bundle:
     runs-on: ubuntu-latest
     name: build-bundle
+    if: ${{ inputs.PACKAGE_OPERATOR }}
     needs: ["setup", "build-operator"]
     strategy:
       matrix:
@@ -376,6 +382,7 @@ jobs:
   package-helm:
     runs-on: ubuntu-latest
     name: package-helm
+    if: ${{ inputs.PACKAGE_OPERATOR }}
     needs: ["setup"]
     env:
       REPOSITORY_NAME: ${{ needs.setup.outputs.repository_name }}
@@ -490,7 +497,7 @@ jobs:
   test-helmchart:
     runs-on: ubuntu-latest
     name: test-helmchart
-    if: ${{ inputs.RUN_HELMCHART_TEST }}
+    if: ${{ inputs.PACKAGE_OPERATOR && inputs.RUN_HELMCHART_TEST }}
     needs: ["setup"]
     env:
       REPOSITORY_NAME: ${{ needs.setup.outputs.repository_name }}
