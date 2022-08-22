@@ -4,7 +4,7 @@ on:
     inputs:
       OPERATOR_SDK_VERSION:
         description: "Version of Operator SDK Binary for installation"
-        default: "v1.21.0"
+        default: "v1.22.2"
         required: false
         type: string
       BUILD_PLATFORMS:
@@ -14,7 +14,7 @@ on:
         type: string
       GO_VERSION:
         description: "Go version to use"
-        default: "~1.16"
+        default: "~1.18"
         required: false
         type: string
       PR_ACTOR:
