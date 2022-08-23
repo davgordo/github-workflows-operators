@@ -325,7 +325,7 @@ jobs:
   process-operator-image-manifest:
     runs-on: ubuntu-latest
     name: process-operator-image-manifest
-    if: ${{ inputs.PACKAGE_OPERATOR }}
+    if: ${{ always() && inputs.PACKAGE_OPERATOR }}
     needs: ["setup", "test-operator", "build-operator"]
     env:
       REPOSITORY_NAME: ${{ needs.setup.outputs.repository_name }}
@@ -483,7 +483,7 @@ jobs:
   process-bundle-image-manifest:
     runs-on: ubuntu-latest
     name: process-bundle-image-manifest
-    if: ${{ inputs.PACKAGE_OPERATOR }}
+    if: ${{ always() && inputs.PACKAGE_OPERATOR }}
     needs:
       [
         "setup",
@@ -629,7 +629,7 @@ jobs:
   helm-release:
     runs-on: ubuntu-latest
     name: helm-release
-    if: ${{ inputs.PACKAGE_OPERATOR && needs.setup.outputs.tag_event == 'true' }}
+    if: ${{ always() && inputs.PACKAGE_OPERATOR && needs.setup.outputs.tag_event == 'true' }}
     needs:
       [
         "setup",
@@ -692,7 +692,7 @@ jobs:
   operatorhub-release:
     runs-on: ubuntu-latest
     name: operatorhub-release
-    if: ${{ inputs.PACKAGE_OPERATOR && needs.setup.outputs.tag_event == 'true' }}
+    if: ${{ always() && inputs.PACKAGE_OPERATOR && needs.setup.outputs.tag_event == 'true' }}
     needs: ["setup", "test-operator", "github-release", "helm-release"]
     env:
       REPOSITORY_NAME: ${{ needs.setup.outputs.repository_name }}
