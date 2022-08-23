@@ -586,7 +586,7 @@ jobs:
   github-release:
     runs-on: ubuntu-latest
     name: github-release
-    if: ${{ needs.setup.outputs.tag_event == 'true' }}
+    if: ${{ always() && needs.setup.outputs.tag_event == 'true' }}
     needs:
       [
         "setup",
